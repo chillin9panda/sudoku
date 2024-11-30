@@ -3,13 +3,15 @@
 
 #include <iostream>
 
-class sudoku{
+class sudoku {
 private:
 public:
-	int linearSearch(int list[], int value);
-	int binarySearch(int list[], int value);
-	void displayBoard(int board[3][3][3][3]);
+  int linearSearch(int list[], int value);
+  int binarySearch(int list[], int value);
+  void displayBoard(int board[3][3][3][3], int cursor[4]);
+  void moveCursor();
+  void insertValue(int board[3][3][3][3], int gridRow, int gridColumn, int row,
+                   int column, int value);
 };
-
 
 #endif

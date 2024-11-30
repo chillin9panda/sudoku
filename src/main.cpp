@@ -13,11 +13,12 @@ int main() {
                             {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
                             {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}};
 
-  board[1][1][1][1] = 5;
-
   sudoku game;
   
-  game.displayBoard(board);
+  int cursor[4] = {0, 0, 0, 0};
+  game.insertValue(board, 1, 1, 1, 1, 5);
+
+  game.displayBoard(board, cursor);
 
   return 0;
 }
