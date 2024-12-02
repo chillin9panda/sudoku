@@ -1,8 +1,10 @@
 #include "sudoku.h"
 
-int sudoku::linearSearch(int list[], int value) {
+
+
+int sudoku::linearSearch(int list[3][3][3][3], int value) {
   for (int i = 0; i < 9; i++) {
-    if (value != list[i])
+    if (value != list[i][i][i][i]) // Not functional
       return i;
   }
   return -1;
@@ -36,3 +38,9 @@ void sudoku::insertValue(int board[3][3][3][3], int gridRow, int gridColumn,
                          int row, int column, int value) {
   board[gridRow][gridColumn][row][column] = value;
 }
+
+
+void sudoku::moveCursor(){
+
+}
+

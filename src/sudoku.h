@@ -6,7 +6,7 @@
 class sudoku {
 private:
 public:
-  int linearSearch(int list[], int value);
+  int linearSearch(int list[3][3][3][3], int value);
   int binarySearch(int list[], int value);
   void displayBoard(int board[3][3][3][3], int cursor[4]);
   void moveCursor();
