@@ -1,14 +1,20 @@
 #include "sudoku.h"
 
-
-
-int sudoku::linearSearch(int list[3][3][3][3], int value) {
-  for (int i = 0; i < 9; i++) {
-    if (value != list[i][i][i][i]) // Not functional
-      return i;
+  
+int sudoku::verticalLinearSearch(int list[3][3][3][3], int value){
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j< 3; j++){
+        for (int k=0; k<3; k++){
+            for (int l=0;l<3;l++){
+                if (value != list[0][1][k][1] || value != list[2][1][k][1])
+                  return value;
+                }
+            }
+        }
   }
   return -1;
 }
+
 
 void sudoku::displayBoard(int board[3][3][3][3],
                           int cursor[4]) { // grid row, grid column, row, column
