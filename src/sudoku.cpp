@@ -33,12 +33,12 @@ void sudoku::insertValue(int board[9][9], int row, int column, int value) {
 }
 
 void sudoku::moveCursor(int cursor[2], char input) {
-  if (input == 'w' && cursor[0] > 0) // Move up
+  if ('w' == input && cursor[0] > 0) // Move up
     cursor[0]--;
-  if (input == 's' && cursor[0] < 8) // Move Down
+  if ('s' == input && cursor[0] < 8) // Move Down
     cursor[0]++;
-  if (input == 'a' && cursor[1] > 0) // Move left
+  if ('a' == input && cursor[1] > 0) // Move left
     cursor[1]--;
-  if (input == 'd' && cursor[1] < 8) // Move Right
+  if ('d' == input && cursor[1] < 8) // Move Right
     cursor[1]++;
 }
