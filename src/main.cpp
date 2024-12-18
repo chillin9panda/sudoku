@@ -1,42 +1,38 @@
 #include "sudoku.h"
 
 int main() {
-  int board[3][3][3][3] = {{{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
-                            {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
-                            {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}},
-
-                           {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
-                            {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
-                            {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}},
-
-                           {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
-                            {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
-                            {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}};
-
- 
+  int board[9][9] = {
+      {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {0, 0, 0, 0, 0, 0, 0, 0, 0},
+  };
 
   sudoku game;
 
-  int cursor[4] = {0, 0, 0, 0};
-  game.insertValue(board, 1, 1, 1, 1, 5);
+  int cursor[2] = {0, 0};
+  game.insertValue(board, 4, 5, 5);
 
   // int x = game.verticalLinearSearch(board, 5);
 
   char input;
-  
-  while(true){
+
+  while (true) {
+    system("clear"); // cls for windows
+
+    std::cout << "Use w, a, s, d to move and q to quit.\n" << std::endl;
+
     game.displayBoard(board, cursor);
-   
 
     std::cin >> input;
 
-    if ('q'==input){
+    if ('q' == input) {
       break;
     }
 
-    game.moveCursor(cursor[0], cursor[1], cursor[2], cursor[3], input);
+    game.moveCursor(cursor, input);
   }
-
 
   return 0;
 }
