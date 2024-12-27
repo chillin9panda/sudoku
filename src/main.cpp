@@ -1,6 +1,8 @@
 #include "sudoku.h"
+#include <iostream>
 
 int main() {
+
   int board[9][9] = {
       {9, 4, 6, 3, 7, 1, 5, 0, 0}, {0, 7, 2, 9, 5, 0, 4, 6, 1},
       {8, 0, 5, 0, 6, 0, 3, 9, 7}, {0, 0, 0, 0, 1, 5, 0, 0, 0},
@@ -17,6 +19,8 @@ int main() {
   char input;
   int value;
   bool isEditable[9][9];
+  int attempts = 0;
+  const int maxAttempts = 3;
 
   // set cells as editable/changable only if value is 0 at the start of the game
   for (int row = 0; row < 9; row++) {
@@ -69,7 +73,7 @@ int main() {
 
       // validate range
       if (value < 1 || value > 9) {
-        std::cout << "Invalid value! Enter a number between 1 and 9."
+        std::cout << "\nInvalid value! Enter a number between 1 and 9."
                   << std::endl;
         std::cin.ignore();
         std::cin.get();
@@ -80,15 +84,23 @@ int main() {
       if (game.isValidPlacement(board, cursor[0], cursor[1], value)) {
         game.insertValue(board, cursor[0], cursor[1], value);
       } else {
-        std::cout << "Invalid placement! Try again." << std::endl;
+        attempts++;
+        std::cout << "\nWrong placement! Try again." << std::endl;
         std::cin.ignore();
         std::cin.get();
       }
 
       // Check winning Condition
       if (game.isWon(board)) {
-        system("cls"); // Clear screen
+        system("clear"); // Clear screen
         std::cout << "Congratulations, You've won the game!" << std::endl;
+        break;
+      }
+
+      // Check Losing Condition
+      if (attempts == maxAttempts) {
+        system("clear");
+        std::cout << "GAME OVER!" << std::endl;
         break;
       }
     }
