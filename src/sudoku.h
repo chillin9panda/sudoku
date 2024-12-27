@@ -14,6 +14,7 @@ public:
   bool gridSearch(int board[9][9], int startRow, int startCol, int value,
                   int skipRow, int skipCol);
   bool isValidPlacement(int board[9][9], int row, int col, int value);
+  bool isWon(int board[9][9]);
 };
 
 #endif

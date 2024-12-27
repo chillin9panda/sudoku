@@ -93,3 +93,18 @@ bool sudoku::isValidPlacement(int board[9][9], int row, int col, int value) {
          !verticalLinearSearch(board, col, value, row) &&
          !gridSearch(board, startRow, startCol, value, row, col);
 }
+
+// Check if the game is won
+bool sudoku::isWon(int board[9][9]) {
+  // Check rows and column for completeness
+  for (int row = 0; row < 9; row++) {
+    for (int col = 0; col < 9; col++) {
+      if (0 == board[row][col]) {
+        return false;
+      }
+    }
+  }
+
+  // If all cells are filled
+  return true;
+}
