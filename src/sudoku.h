@@ -15,7 +15,8 @@ public:
                   int skipRow, int skipCol);
   bool isValidPlacement(int board[9][9], int row, int col, int value);
   bool isWon(int board[9][9]);
-  void difficultySwitch(int difficulty[9][9], int board[9][9]);
+  void assignDifficulty(int source[9][9], int destination[9][9]);
+  void difficultySwitch(int board[9][9]);
 };
 
 #endif

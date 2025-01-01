@@ -5,37 +5,11 @@ int main() {
   // game object
   sudoku game;
 
-  // easy mode board
-  int easy[9][9] = {
-      {9, 4, 6, 3, 7, 1, 5, 0, 0}, {0, 7, 2, 9, 5, 0, 4, 6, 1},
-      {8, 0, 5, 0, 6, 0, 3, 9, 7}, {0, 0, 0, 0, 1, 5, 0, 0, 0},
-      {0, 0, 0, 0, 0, 2, 8, 1, 4}, {1, 0, 8, 4, 0, 0, 9, 0, 6},
-      {4, 0, 0, 7, 0, 6, 0, 8, 0}, {0, 6, 9, 0, 0, 0, 0, 0, 0},
-      {7, 8, 0, 5, 0, 0, 0, 3, 2},
-  };
-
-  // medium difficulty board
-  int medium[9][9] = {
-      {0, 0, 2, 0, 7, 1, 0, 6, 0}, {0, 3, 0, 0, 0, 8, 0, 7, 9},
-      {4, 7, 6, 9, 0, 2, 8, 0, 0}, {0, 6, 9, 8, 0, 0, 5, 4, 2},
-      {2, 0, 0, 6, 0, 5, 3, 8, 0}, {0, 0, 8, 7, 2, 4, 0, 0, 6},
-      {1, 0, 7, 3, 0, 0, 6, 5, 4}, {6, 4, 3, 0, 0, 7, 0, 0, 0},
-      {0, 9, 0, 0, 0, 0, 0, 3, 0},
-  };
-
-  // hard difficulty board
-  int hard[9][9] = {
-      {0, 3, 0, 8, 2, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-      {8, 0, 0, 5, 7, 0, 0, 1, 0}, {7, 0, 0, 2, 0, 0, 0, 0, 9},
-      {0, 1, 0, 9, 8, 0, 0, 3, 0}, {6, 0, 0, 0, 0, 0, 0, 8, 4},
-      {5, 9, 0, 0, 0, 0, 6, 0, 0}, {0, 0, 2, 0, 1, 0, 0, 0, 0},
-      {0, 0, 0, 0, 0, 0, 7, 0, 0},
-  };
-
   // board
-  int board[9][9];
+  int board[9][9] = {0};
 
-  game.difficultySwitch(hard, board); // load selected difficulty
+  // load board with selected difficulty
+  game.difficultySwitch(board);
 
   // Cursor starting position
   int cursor[2] = {0, 0};
@@ -55,6 +29,7 @@ int main() {
 
   // Main Game loop
   while (true) {
+
     system("clear"); // use "cls" for windows
 
     std::cout << " Use w, a, s, d to move\n"
@@ -118,6 +93,7 @@ int main() {
       if (game.isWon(board)) {
         system("clear"); // Clear screen
         std::cout << "Congratulations, You've won the game!" << std::endl;
+        system("pause");
         break;
       }
 
