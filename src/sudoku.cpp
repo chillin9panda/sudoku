@@ -1,8 +1,10 @@
 #include "sudoku.h"
 
-void sudoku::displayBoard(int board[9][9], int cursor[2]) { //  row, column
-  for (int row = 0; row < 9; row++) {                       //  row
-    for (int column = 0; column < 9; column++) {            // column
+// show board as 9x9 on console and cursor starts at specified position in
+// main.cpp
+void sudoku::displayBoard(int board[9][9], int cursor[2]) {
+  for (int row = 0; row < 9; row++) {            //  row
+    for (int column = 0; column < 9; column++) { // column
       if (row == cursor[0] && column == cursor[1]) {
         std::cout << "[" << board[row][column] << "]"
                   << "   ";
@@ -14,10 +16,12 @@ void sudoku::displayBoard(int board[9][9], int cursor[2]) { //  row, column
   }
 }
 
+// insert/change value at the position of the cursor
 void sudoku::insertValue(int board[9][9], int row, int column, int value) {
   board[row][column] = value;
 }
 
+// Move cursor arround the board
 void sudoku::moveCursor(int cursor[2], char input) {
   if ('w' == input && cursor[0] > 0) // Move up
     cursor[0]--;
@@ -62,9 +66,10 @@ bool sudoku::horizontalLinearSearch(int board[9][9], int row, int value,
   return false; // Not found
 }
 
-// Search within the grid
+// Search within the grid of 3x3
 bool sudoku::gridSearch(int board[9][9], int startRow, int startCol, int value,
                         int skipRow, int skipCol) {
+
   int currentRow, currentCol;
 
   for (int row = 0; row < 3; row++) {
@@ -94,7 +99,7 @@ bool sudoku::isValidPlacement(int board[9][9], int row, int col, int value) {
          !gridSearch(board, startRow, startCol, value, row, col);
 }
 
-// Check if the game is won
+// Checks if the game is won
 bool sudoku::isWon(int board[9][9]) {
   // Check rows and column for completeness
   for (int row = 0; row < 9; row++) {
@@ -105,6 +110,15 @@ bool sudoku::isWon(int board[9][9]) {
     }
   }
 
-  // If all cells are filled
+  // If all cells are filled and no 0 is left
   return true;
+}
+
+// loads seected difficulty board to main board
+void sudoku::difficultySwitch(int difficulty[9][9], int board[9][9]) {
+  for (int i = 0; i < 9; i++) {
+    for (int j = 0; j < 9; j++) {
+      board[i][j] = difficulty[i][j];
+    }
+  }
 }
