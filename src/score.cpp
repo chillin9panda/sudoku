@@ -1,6 +1,4 @@
 #include "score.h"
-#include <fstream>
-#include <sstream>
 
 double score::easyModePoints(double timeElapsed) {
   scorePoint = 0;
@@ -54,6 +52,7 @@ double score::hardModePoints(double timeElapsed) {
 }
 
 // high scores with linked list
+// load file
 void score::loadScoresFromFile(const std::string &highScoresFile) {
   std::ifstream file(highScoresFile);
   if (!file.is_open())
@@ -78,6 +77,58 @@ void score::loadScoresFromFile(const std::string &highScoresFile) {
         temp->nxt = scoresNode;
       }
     }
+  }
+  file.close();
+}
+
+// insert new high score
+void score::insertHighScore(const std::string &name, double score) {
+  highScores *scoresNode = new highScores{0, name, score, NULL};
+
+  // Insert in sorted order
+  if (!head || score > head->score) {
+    scoresNode->nxt = head;
+    head = scoresNode;
+  } else {
+    highScores *temp = head;
+    while (temp->nxt && temp->nxt->score >= score) {
+      temp = temp->nxt;
+    }
+    scoresNode->nxt = temp->nxt;
+    temp->nxt = scoresNode;
+  }
+
+  // Keep only top 5 scores
+  highScores *temp = head;
+  int count = 1;
+  while (temp && temp->nxt) {
+    if (++count > 5) {
+      delete temp->nxt;
+      temp->nxt = NULL;
+      break;
+    }
+    temp = temp->nxt;
+  }
+
+  // Update Ranking
+  temp = head;
+  int rank = 1;
+  while (temp) {
+    temp->rankNumber = rank++;
+    temp = temp->nxt;
+  }
+}
+
+// save the highscore to file
+void score::saveScoreToFile(const std::string &highScoresFile) {
+  std::ofstream file(highScoresFile);
+  if (!file.is_open())
+    return;
+  highScores *temp = head;
+  while (temp) {
+    file << temp->rankNumber << "  " << temp->name << "  " << temp->score
+         << std::endl;
+    temp = temp->nxt;
   }
   file.close();
 }

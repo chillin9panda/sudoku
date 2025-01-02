@@ -1,6 +1,8 @@
 #ifndef SCORE_H
 #define SCORE_H
 
+#include <fstream>
+#include <sstream>
 #include <string>
 
 // Linked list to record top 5 highScores
@@ -37,6 +39,7 @@ public:
   double hardModePoints(double timeElapsed);
   void loadScoresFromFile(const std::string &highScoresFile);
   void insertHighScore(const std::string &name, double score);
+  void saveScoreToFile(const std::string &highScoresFile);
 };
 
 #endif
