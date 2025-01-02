@@ -1,4 +1,5 @@
 #include "sudoku.h"
+#include <chrono>
 
 // show board as 9x9 on console and cursor starts at specified position in
 // main.cpp
@@ -178,4 +179,18 @@ void sudoku::difficultySwitch(int board[9][9]) {
     std::cout << "Invalid Option" << std::endl;
   }
   }
+}
+
+// Game timer
+// start timer
+void sudoku::startTimer() { startTime = std::chrono::steady_clock::now(); }
+
+// stop timer
+void sudoku::stopTimer() {
+  endTime = std::chrono::steady_clock::now();
+  std::chrono::duration<double> elapsedSeconds =
+      std::chrono::duration_cast<std::chrono::duration<double>>(endTime -
+                                                                startTime);
+  std::cout << "Time Elsapsed: " << elapsedSeconds.count() << " seconds."
+            << std::endl;
 }

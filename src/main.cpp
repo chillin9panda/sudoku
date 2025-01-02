@@ -27,6 +27,8 @@ int main() {
     }
   }
 
+  game.startTimer();
+
   // Main Game loop
   while (true) {
 
@@ -93,6 +95,7 @@ int main() {
       if (game.isWon(board)) {
         system("clear"); // Clear screen
         std::cout << "Congratulations, You've won the game!" << std::endl;
+        game.stopTimer();
         system("pause");
         break;
       }
@@ -101,7 +104,8 @@ int main() {
       if (attempts == maxAttempts) {
         system("clear");
         std::cout << "GAME OVER!" << std::endl;
-        system("pause"); // pause the screen until a key is pressed
+        game.stopTimer();
+        std::cin.get();
         break;
       }
     }
