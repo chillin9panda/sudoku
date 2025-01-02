@@ -162,6 +162,9 @@ void sudoku::difficultySwitch(int board[9][9]) {
   std::cout << "Select difficulty: ";
   std::cin >> difficultyOption;
 
+  // set difficulty
+  difficulty = difficultyOption;
+
   switch (difficultyOption) {
   case '1': {
     assignDifficulty(easy, board);
@@ -191,6 +194,34 @@ void sudoku::stopTimer() {
   std::chrono::duration<double> elapsedSeconds =
       std::chrono::duration_cast<std::chrono::duration<double>>(endTime -
                                                                 startTime);
-  std::cout << "Time Elsapsed: " << elapsedSeconds.count() << " seconds."
-            << std::endl;
+  elapsedTime = elapsedSeconds.count();
+  std::cout << "Time Elsapsed: " << elapsedTime << " seconds." << std::endl;
 }
+
+// Scoring
+double sudoku::calculateScore(char difficulty) {
+  switch (difficulty) {
+  case '1': {
+    scoredPoint = points.easyModePoints(elapsedTime);
+    break;
+  }
+  case '2': {
+    break;
+  }
+  case '3': {
+    break;
+  }
+  default: {
+    std::cout << "Invalid Option" << std::endl;
+  }
+  }
+
+  totalPoints += scoredPoint;
+
+  return totalPoints;
+}
+
+// setters and getters
+void sudoku::setDifficulty(char diff) { difficulty = diff; }
+
+char sudoku::getDifficulty() { return difficulty; }

@@ -1,5 +1,4 @@
 #include "sudoku.h"
-#include <iostream>
 
 int main() {
   // game object
@@ -14,11 +13,13 @@ int main() {
   // Cursor starting position
   int cursor[2] = {0, 0};
 
+  // Variable decalrations
   char input;
   int value;
   bool isEditable[9][9];
   int attempts = 0;
   const int maxAttempts = 3;
+  double points = 0;
 
   // set cells as editable/changable only if value is 0 at the start of the game
   for (int row = 0; row < 9; row++) {
@@ -38,6 +39,9 @@ int main() {
               << " i to insert value\n"
               << " q to quit\n"
               << std::endl;
+
+    std::cout << "Elapsed Time: " << game.elapsedTime;
+    std::cout << "Points: " << points << std::endl;
 
     game.displayBoard(board, cursor);
 
@@ -84,6 +88,7 @@ int main() {
       // Validate placement and increament invalid attempts
       if (game.isValidPlacement(board, cursor[0], cursor[1], value)) {
         game.insertValue(board, cursor[0], cursor[1], value);
+        points = game.calculateScore(game.getDifficulty());
       } else {
         attempts++;
         std::cout << "\nWrong placement! Try again." << std::endl;
