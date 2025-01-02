@@ -1,6 +1,16 @@
 #ifndef SCORE_H
 #define SCORE_H
 
+#include <string>
+
+// Linked list to record top 5 highScores
+struct highScores {
+  int rankNumber;
+  std::string name;
+  double score;
+  highScores *nxt;
+};
+
 class score {
 private:
   // store points
@@ -17,11 +27,16 @@ private:
   const int fifteenMin = 5 * 60; // fifteen minutes
   const int twentyMin = 20 * 60; // twenty minutes
   const int thirtyMin = 30 * 60; // thirty Minutes
+                                 //
+  // Linked list
+  highScores *head = NULL;
 
 public:
   double easyModePoints(double timeElapsed);
   double mediumModePoints(double timeElapsed);
   double hardModePoints(double timeElapsed);
+  void loadScoresFromFile(const std::string &highScoresFile);
+  void insertHighScore(const std::string &name, double score);
 };
 
 #endif

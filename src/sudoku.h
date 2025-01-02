@@ -18,14 +18,14 @@ private:
   std::chrono::steady_clock::time_point endTime;
   std::atomic<bool> liveTimer;
 
+  double elapsedTime;
+
   // score object
   score points;
   double scoredPoint = 0;
   double totalPoints = 0;
 
 public:
-  double elapsedTime;
-
   void displayBoard(int board[9][9], int cursor[2]);
   void moveCursor(int cursor[2], char input);
   void insertValue(int board[9][9], int row, int column, int value);

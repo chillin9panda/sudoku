@@ -1,4 +1,6 @@
 #include "score.h"
+#include <fstream>
+#include <sstream>
 
 double score::easyModePoints(double timeElapsed) {
   scorePoint = 0;
@@ -49,4 +51,33 @@ double score::hardModePoints(double timeElapsed) {
   }
 
   return scorePoint;
+}
+
+// high scores with linked list
+void score::loadScoresFromFile(const std::string &highScoresFile) {
+  std::ifstream file(highScoresFile);
+  if (!file.is_open())
+    return;
+
+  std::string line;
+
+  while (std::getline(file, line)) {
+    std::istringstream ss(line);
+    int rank;
+    std::string name;
+    double score;
+    if (ss >> rank >> name >> score) {
+      highScores *scoresNode = new highScores{rank, name, score, NULL};
+      if (!head) {
+        head = scoresNode;
+      } else {
+        highScores *temp = head;
+        while (temp->nxt) {
+          temp = temp->nxt;
+        }
+        temp->nxt = scoresNode;
+      }
+    }
+  }
+  file.close();
 }

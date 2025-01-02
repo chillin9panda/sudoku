@@ -1,8 +1,11 @@
+#include "score.h"
 #include "sudoku.h"
 
 int main() {
-  // game object
+  // game objects
   sudoku game;
+  score scoredPoints;
+  ;
 
   // board
   int board[9][9] = {0};
@@ -21,6 +24,10 @@ int main() {
   const int maxAttempts = 3;
   double points = 0;
 
+  // File to store high sccores
+  const std::string highScores = "highscores.txt";
+  scoredPoints.loadScoresFromFile(highScores);
+
   // set cells as editable/changable only if value is 0 at the start of the game
   for (int row = 0; row < 9; row++) {
     for (int col = 0; col < 9; col++) {
@@ -33,7 +40,6 @@ int main() {
   // Main Game loop
   while (true) {
     system("clear"); // use "cls" for windows
-    std::cout << game.elapsedTime << std::endl;
     std::cout << " Use w, a, s, d to move\n"
               << " i to insert value\n"
               << " q to quit\n"
