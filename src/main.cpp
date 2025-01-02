@@ -32,15 +32,13 @@ int main() {
 
   // Main Game loop
   while (true) {
-
     system("clear"); // use "cls" for windows
-
+    std::cout << game.elapsedTime << std::endl;
     std::cout << " Use w, a, s, d to move\n"
               << " i to insert value\n"
               << " q to quit\n"
               << std::endl;
 
-    std::cout << "Elapsed Time: " << game.elapsedTime;
     std::cout << "Points: " << points << std::endl;
 
     game.displayBoard(board, cursor);

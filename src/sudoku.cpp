@@ -1,5 +1,8 @@
 #include "sudoku.h"
 #include <chrono>
+#include <iomanip>
+#include <ostream>
+#include <thread>
 
 // show board as 9x9 on console and cursor starts at specified position in
 // main.cpp
@@ -186,16 +189,34 @@ void sudoku::difficultySwitch(int board[9][9]) {
 
 // Game timer
 // start timer
-void sudoku::startTimer() { startTime = std::chrono::steady_clock::now(); }
+void sudoku::startTimer() {
+  liveTimer = true;
+  startTime = std::chrono::steady_clock::now();
+
+  std::thread([this]() {
+    while (liveTimer) {
+      auto now = std::chrono::steady_clock::now();
+      auto elapsedSeconds =
+          std::chrono::duration_cast<std::chrono::duration<double>>(now -
+                                                                    startTime);
+      elapsedTime = elapsedSeconds.count();
+
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+  }).detach();
+}
 
 // stop timer
 void sudoku::stopTimer() {
+  liveTimer = false;
   endTime = std::chrono::steady_clock::now();
-  std::chrono::duration<double> elapsedSeconds =
+  auto elapsedSeconds =
       std::chrono::duration_cast<std::chrono::duration<double>>(endTime -
                                                                 startTime);
   elapsedTime = elapsedSeconds.count();
-  std::cout << "Time Elsapsed: " << elapsedTime << " seconds." << std::endl;
+
+  std::cout << "\rTime Elapsed: " << std::fixed << std::setprecision(2)
+            << elapsedTime << " Seconds" << std::flush;
 }
 
 // Scoring
@@ -206,9 +227,11 @@ double sudoku::calculateScore(char difficulty) {
     break;
   }
   case '2': {
+    scoredPoint = points.mediumModePoints(elapsedTime);
     break;
   }
   case '3': {
+    scoredPoint = points.hardModePoints(elapsedTime);
     break;
   }
   default: {

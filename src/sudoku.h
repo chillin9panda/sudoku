@@ -2,16 +2,21 @@
 #define SUDOKU_H
 
 #include "score.h"
+#include <atomic>
 #include <chrono>
 #include <iostream>
+#include <thread>
+#include <unistd.h>
 
 class sudoku {
 private:
   // difficulty
   char difficulty;
 
+  // Timer
   std::chrono::steady_clock::time_point startTime;
   std::chrono::steady_clock::time_point endTime;
+  std::atomic<bool> liveTimer;
 
   // score object
   score points;
