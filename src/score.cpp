@@ -1,4 +1,5 @@
 #include "score.h"
+#include <string>
 
 double score::easyModePoints(double timeElapsed) {
   scorePoint = 0;
@@ -52,7 +53,7 @@ double score::hardModePoints(double timeElapsed) {
 }
 
 // high scores with linked list
-// load file
+// load file to linked list
 void score::loadScoresFromFile(const std::string &highScoresFile) {
   std::ifstream file(highScoresFile);
   if (!file.is_open())
@@ -82,40 +83,51 @@ void score::loadScoresFromFile(const std::string &highScoresFile) {
 }
 
 // insert new high score
-void score::insertHighScore(const std::string &name, double score) {
-  highScores *scoresNode = new highScores{0, name, score, NULL};
+void score::insertHighScore(double score, const std::string &highScoresFile) {
+  loadScoresFromFile(highScoresFile);
 
-  // Insert in sorted order
-  if (!head || score > head->score) {
-    scoresNode->nxt = head;
-    head = scoresNode;
-  } else {
+  if (NULL == head || score > head->score) {
+    std::string name;
+    std::cout << "New High Score!! You scored " << score << "points."
+              << "\nEnter your name: ";
+    std::cin >> name;
+
+    highScores *scoresNode = new highScores{0, name, score, NULL};
+    // Insert in sorted order
+    if (!head || score > head->score) {
+      scoresNode->nxt = head;
+      head = scoresNode;
+    } else { // if scored points is greater than the highscores in the list
+      highScores *temp = head;
+      while (temp->nxt && temp->nxt->score >= score) {
+        temp = temp->nxt;
+      }
+      scoresNode->nxt = temp->nxt;
+      temp->nxt = scoresNode;
+    }
+
+    // Keep only top 5 scores
     highScores *temp = head;
-    while (temp->nxt && temp->nxt->score >= score) {
+    int count = 1;
+    while (temp && temp->nxt) {
+      if (++count > 5) {
+        delete temp->nxt;
+        temp->nxt = NULL;
+        break;
+      }
       temp = temp->nxt;
     }
-    scoresNode->nxt = temp->nxt;
-    temp->nxt = scoresNode;
-  }
 
-  // Keep only top 5 scores
-  highScores *temp = head;
-  int count = 1;
-  while (temp && temp->nxt) {
-    if (++count > 5) {
-      delete temp->nxt;
-      temp->nxt = NULL;
-      break;
+    // Update Ranking
+    temp = head;
+    int rank = 1;
+    while (temp) {
+      temp->rankNumber = rank++;
+      temp = temp->nxt;
     }
-    temp = temp->nxt;
-  }
 
-  // Update Ranking
-  temp = head;
-  int rank = 1;
-  while (temp) {
-    temp->rankNumber = rank++;
-    temp = temp->nxt;
+    // Save the updated score to file
+    saveScoreToFile(highScoresFile);
   }
 }
 

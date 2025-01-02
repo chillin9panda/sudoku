@@ -4,7 +4,8 @@
 #include "score.h"
 #include <atomic>
 #include <chrono>
-#include <iostream>
+#include <iomanip>
+#include <ostream>
 #include <thread>
 #include <unistd.h>
 

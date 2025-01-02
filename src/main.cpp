@@ -5,7 +5,6 @@ int main() {
   // game objects
   sudoku game;
   score scoredPoints;
-  ;
 
   // board
   int board[9][9] = {0};
@@ -23,14 +22,10 @@ int main() {
   int attempts = 0;
   const int maxAttempts = 3;
   double points = 0;
+  std::string name;
 
   // File to store high sccores
   const std::string highScores = "highscores.txt";
-  scoredPoints.loadScoresFromFile(highScores);
-  // insert high score
-  scoredPoints.insertHighScore("panda", 9999.99);
-  // save
-  scoredPoints.saveScoreToFile(highScores);
 
   // set cells as editable/changable only if value is 0 at the start of the game
   for (int row = 0; row < 9; row++) {
@@ -49,7 +44,8 @@ int main() {
               << " q to quit\n"
               << std::endl;
 
-    std::cout << "Points: " << points << std::endl;
+    std::cout << "Mistakes: " << attempts << " / " << maxAttempts << std::endl;
+    std::cout << "Points: " << points << "\n" << std::endl;
 
     game.displayBoard(board, cursor);
 
@@ -109,7 +105,10 @@ int main() {
         system("clear"); // Clear screen
         std::cout << "Congratulations, You've won the game!" << std::endl;
         game.stopTimer();
-        system("pause");
+
+        // check if the score is a new high score and save if so
+        scoredPoints.insertHighScore(points, highScores);
+
         break;
       }
 

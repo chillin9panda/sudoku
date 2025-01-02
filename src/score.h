@@ -2,6 +2,7 @@
 #define SCORE_H
 
 #include <fstream>
+#include <iostream>
 #include <sstream>
 #include <string>
 
@@ -38,7 +39,7 @@ public:
   double mediumModePoints(double timeElapsed);
   double hardModePoints(double timeElapsed);
   void loadScoresFromFile(const std::string &highScoresFile);
-  void insertHighScore(const std::string &name, double score);
+  void insertHighScore(double score, const std::string &highScoresFile);
   void saveScoreToFile(const std::string &highScoresFile);
 };
 

@@ -1,8 +1,4 @@
 #include "sudoku.h"
-#include <chrono>
-#include <iomanip>
-#include <ostream>
-#include <thread>
 
 // show board as 9x9 on console and cursor starts at specified position in
 // main.cpp
