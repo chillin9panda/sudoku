@@ -55,8 +55,10 @@ double score::hardModePoints(double timeElapsed) {
 // load file to linked list
 void score::loadScoresFromFile(const std::string &highScoresFile) {
   std::ifstream file(highScoresFile);
-  if (!file.is_open())
+  if (!file.is_open()) {
+    std::cout << "Error: Could not open file " << highScoresFile << std::endl;
     return;
+  }
 
   std::string line;
 
@@ -83,11 +85,9 @@ void score::loadScoresFromFile(const std::string &highScoresFile) {
 
 // insert new high score
 void score::insertHighScore(double score, const std::string &highScoresFile) {
-  loadScoresFromFile(highScoresFile);
-
   if (NULL == head || score > head->score) {
     std::string name;
-    std::cout << "New High Score!! You scored " << score << "points."
+    std::cout << "\nNew High Score!! You scored " << score << "points."
               << "\nEnter your name: ";
     std::cin >> name;
 
@@ -109,7 +109,7 @@ void score::insertHighScore(double score, const std::string &highScoresFile) {
     highScores *temp = head;
     int count = 1;
     while (temp && temp->nxt) {
-      if (++count > 5) {
+      if (++count > maxHighScores) {
         delete temp->nxt;
         temp->nxt = NULL;
         break;
@@ -133,8 +133,10 @@ void score::insertHighScore(double score, const std::string &highScoresFile) {
 // save the highscore to file
 void score::saveScoreToFile(const std::string &highScoresFile) {
   std::ofstream file(highScoresFile);
-  if (!file.is_open())
+  if (!file.is_open()) {
+    std::cout << "Could not open file " << highScoresFile << std::endl;
     return;
+  }
   highScores *temp = head;
   while (temp) {
     file << temp->rankNumber << "  " << temp->name << "  " << temp->score
@@ -142,4 +144,23 @@ void score::saveScoreToFile(const std::string &highScoresFile) {
     temp = temp->nxt;
   }
   file.close();
+}
+
+// show all highscores
+void score::viewHighscores() {
+  if (!head) {
+    std::cout << "No high scores recorded yet." << std::endl;
+    return;
+  }
+
+  std::cout << "High Scores" << std::endl;
+  std::cout << "Rank\tName\tScores" << std::endl;
+  std::cout << "_______________________________" << std::endl;
+
+  highScores *temp = head;
+  while (temp) {
+    std::cout << temp->rankNumber << "\t" << temp->name << "\t" << temp->score
+              << std::endl;
+    temp = temp->nxt;
+  }
 }

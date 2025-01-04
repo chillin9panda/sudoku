@@ -27,6 +27,9 @@ int main() {
   // File to store high sccores
   const std::string highScores = "highscores.txt";
 
+  // load high score file
+  scoredPoints.loadScoresFromFile(highScores);
+
   // set cells as editable/changable only if value is 0 at the start of the game
   for (int row = 0; row < 9; row++) {
     for (int col = 0; col < 9; col++) {

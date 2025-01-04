@@ -34,6 +34,8 @@ private:
   // Linked list
   highScores *head = NULL;
 
+  const int maxHighScores =
+      5; // maximum number of highscores that can be stored
 public:
   double easyModePoints(double timeElapsed);
   double mediumModePoints(double timeElapsed);
@@ -41,6 +43,7 @@ public:
   void loadScoresFromFile(const std::string &highScoresFile);
   void insertHighScore(double score, const std::string &highScoresFile);
   void saveScoreToFile(const std::string &highScoresFile);
+  void viewHighscores();
 };
 
 #endif

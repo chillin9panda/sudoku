@@ -1,5 +1,5 @@
-1    3900
-2  panda  0
+1  panda  3000
+2  panda  2866.67
 3  panda  0
 4  panda  0
 5  panda  0
