@@ -4,6 +4,9 @@
 #include "score.h"
 #include <atomic>
 #include <chrono>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 #include <iomanip>
 #include <ostream>
 #include <thread>
@@ -36,6 +39,9 @@ public:
                   int skipRow, int skipCol);
   bool isValidPlacement(int board[9][9], int row, int col, int value);
   bool isWon(int board[9][9]);
+  bool isValid(int board[9][9], int row, int col, int num);
+  bool generateBoard(int board[9][9], int row, int col);
+  void removeNumbers(int board[9][9], int emptyCell);
   void assignDifficulty(int source[9][9], int destination[9][9]);
   void difficultySwitch(int board[9][9]);
   void startTimer();

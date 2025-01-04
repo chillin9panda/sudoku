@@ -114,6 +114,54 @@ bool sudoku::isWon(int board[9][9]) {
   return true;
 }
 
+// validation for board generation
+bool sudoku::isValid(int board[9][9], int row, int col, int num) {
+  for (int i = 0; i < 9; i++) {
+    if (board[row][i] == num || board[i][col] == num)
+      return false;
+
+    int boxRow = row - row % 3 + i / 3;
+    int boxCol = col - col % 3 + i % 3;
+    if (board[boxRow][boxCol] == num)
+      return false;
+  }
+  return true;
+}
+
+// Auto generate board at the beggining of the game
+bool sudoku::generateBoard(int board[9][9], int row = 0, int col = 0) {
+  if (row == 9)
+    return true;
+  if (col == 9)
+    return generateBoard(board, row + 1, 0);
+  if (0 != board[row][col])
+    return generateBoard(board, row, col + 1);
+
+  for (int i = 1; i <= 9; i++) {
+    if (isValid(board, row, col, i)) {
+      board[row][col] = i;
+      if (generateBoard(board, row, col + 1))
+        return true;
+      board[row][col] = 0;
+    }
+  }
+  return false;
+}
+
+// remove values from cells based on the difficulty
+void sudoku::removeNumbers(int board[9][9], int emptyCells) {
+  srand(time(0));
+  while (emptyCells > 0) {
+    int row = rand() % 9;
+    int col = rand() % 9;
+
+    if (board[row][col] != 0) {
+      board[row][col] = 0;
+      emptyCells--;
+    }
+  }
+}
+
 // assign one array to another
 void sudoku::assignDifficulty(int source[9][9], int destination[9][9]) {
   for (int i = 0; i < 9; i++) {
@@ -127,33 +175,6 @@ void sudoku::assignDifficulty(int source[9][9], int destination[9][9]) {
 void sudoku::difficultySwitch(int board[9][9]) {
   system("clear");
 
-  // easy mode board
-  int easy[9][9] = {
-      {9, 4, 6, 3, 7, 1, 5, 0, 0}, {0, 7, 2, 9, 5, 0, 4, 6, 1},
-      {8, 0, 5, 0, 6, 0, 3, 9, 7}, {0, 0, 0, 0, 1, 5, 0, 0, 0},
-      {0, 0, 0, 0, 0, 2, 8, 1, 4}, {1, 0, 8, 4, 0, 0, 9, 0, 6},
-      {4, 0, 0, 7, 0, 6, 0, 8, 0}, {0, 6, 9, 0, 0, 0, 0, 0, 0},
-      {7, 8, 0, 5, 0, 0, 0, 3, 2},
-  };
-
-  // medium difficulty board
-  int medium[9][9] = {
-      {0, 0, 2, 0, 7, 1, 0, 6, 0}, {0, 3, 0, 0, 0, 8, 0, 7, 9},
-      {4, 7, 6, 9, 0, 2, 8, 0, 0}, {0, 6, 9, 8, 0, 0, 5, 4, 2},
-      {2, 0, 0, 6, 0, 5, 3, 8, 0}, {0, 0, 8, 7, 2, 4, 0, 0, 6},
-      {1, 0, 7, 3, 0, 0, 6, 5, 4}, {6, 4, 3, 0, 0, 7, 0, 0, 0},
-      {0, 9, 0, 0, 0, 0, 0, 3, 0},
-  };
-
-  // hard difficulty board
-  int hard[9][9] = {
-      {0, 3, 0, 8, 2, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0},
-      {8, 0, 0, 5, 7, 0, 0, 1, 0}, {7, 0, 0, 2, 0, 0, 0, 0, 9},
-      {0, 1, 0, 9, 8, 0, 0, 3, 0}, {6, 0, 0, 0, 0, 0, 0, 8, 4},
-      {5, 9, 0, 0, 0, 0, 6, 0, 0}, {0, 0, 2, 0, 1, 0, 0, 0, 0},
-      {0, 0, 0, 0, 0, 0, 7, 0, 0},
-  };
-
   char difficultyOption;
 
   std::cout << "Difficulty Options" << std::endl;
@@ -164,23 +185,35 @@ void sudoku::difficultySwitch(int board[9][9]) {
   // set difficulty
   difficulty = difficultyOption;
 
+  memset(board, 0, sizeof(int) * 81); // Clear board
+
+  // Generate a full board
+  if (!generateBoard(board)) {
+    std::cout << "Error generating sudoku board" << std::endl;
+    return;
+  }
+
+  int emptyCells = 0;
+
   switch (difficultyOption) {
   case '1': {
-    assignDifficulty(easy, board);
+    emptyCells = 30;
     break;
   }
   case '2': {
-    assignDifficulty(medium, board);
+    emptyCells = 40;
     break;
   }
   case '3': {
-    assignDifficulty(hard, board);
+    emptyCells = 50;
     break;
   }
   default: {
     std::cout << "Invalid Option" << std::endl;
+    return;
   }
   }
+  removeNumbers(board, emptyCells);
 }
 
 // Game timer
@@ -241,6 +274,4 @@ double sudoku::calculateScore(char difficulty) {
 }
 
 // setters and getters
-void sudoku::setDifficulty(char diff) { difficulty = diff; }
-
 char sudoku::getDifficulty() { return difficulty; }

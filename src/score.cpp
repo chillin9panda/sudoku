@@ -1,5 +1,4 @@
 #include "score.h"
-#include <string>
 
 double score::easyModePoints(double timeElapsed) {
   scorePoint = 0;
