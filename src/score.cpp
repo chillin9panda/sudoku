@@ -56,8 +56,19 @@ double score::hardModePoints(double timeElapsed) {
 }
 
 // high scores with linked list
-// load file to linked list
+// Clear current highScore list before loading
+void score::clearHighScore() {
+  while (head) {
+    highScores *temp = head;
+    head = head->nxt;
+    delete temp;
+  }
+}
+
+// load highscore file to linked list
 void score::loadScoresFromFile(const std::string &highScoresFile) {
+  clearHighScore();
+
   std::ifstream file(highScoresFile);
   if (!file.is_open()) {
     std::cout << "Error: Could not open file " << highScoresFile << std::endl;

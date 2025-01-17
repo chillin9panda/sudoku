@@ -47,6 +47,7 @@ public:
   double easyModePoints(double timeElapsed);
   double mediumModePoints(double timeElapsed);
   double hardModePoints(double timeElapsed);
+  void clearHighScore();
   void loadScoresFromFile(const std::string &highScoresFile);
   void insertHighScore(double score, const std::string &highScoresFile);
   void saveScoreToFile(const std::string &highScoresFile);
