@@ -1,5 +1,7 @@
 #include "score.h"
 
+// Calculate points based on difficulty and time elapsed
+// for easy mode
 double score::easyModePoints(double timeElapsed) {
   scorePoint = 0;
   if (timeElapsed < fiveMin) {
@@ -15,6 +17,7 @@ double score::easyModePoints(double timeElapsed) {
   return scorePoint;
 }
 
+// Medium Mode
 double score::mediumModePoints(double timeElapsed) {
   scorePoint = 0;
   if (timeElapsed < fiveMin) {
@@ -32,6 +35,7 @@ double score::mediumModePoints(double timeElapsed) {
   return scorePoint;
 }
 
+// Hard Mode
 double score::hardModePoints(double timeElapsed) {
   scorePoint = 0;
   if (timeElapsed < fiveMin) {
@@ -153,7 +157,8 @@ void score::viewHighscores() {
     return;
   }
 
-  std::cout << "High Scores" << std::endl;
+  std::cout << "\tHigh Scores" << std::endl;
+  std::cout << "_______________________________" << std::endl;
   std::cout << "Rank\tName\tScores" << std::endl;
   std::cout << "_______________________________" << std::endl;
 
@@ -163,4 +168,5 @@ void score::viewHighscores() {
               << std::endl;
     temp = temp->nxt;
   }
+  std::cout << "_______________________________" << std::endl;
 }

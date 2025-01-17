@@ -1,8 +1,6 @@
 #include "group.h"
 #include "score.h"
 #include "sudoku.h"
-#include <cstdlib>
-#include <ostream>
 
 int main() {
   // game objects
@@ -40,6 +38,8 @@ int main() {
 
   system(CLEAR);
   do {
+    std::cout << "\tSUDOKU SOLVER" << std::endl;
+    std::cout << "---------------------------" << std::endl;
     std::cout << "1. Play Game\n"
               << "2. High Scores\n"
               << "3. Quit" << std::endl;
@@ -52,6 +52,12 @@ int main() {
       system(CLEAR);
       // load board with selected difficulty
       game.difficultySwitch(board);
+
+      // Reset every thing after selecting difficulty
+      attempts = 0;
+      points = 0;
+      cursor[0] = 0;
+      cursor[1] = 0;
 
       // Start timer
       game.startTimer();

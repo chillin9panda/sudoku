@@ -6,6 +6,13 @@
 #include <sstream>
 #include <string>
 
+// Cross platform clear screen command
+#ifdef _WIN32
+#define CLEAR "cls"
+#else
+#define CLEAR "clear"
+#endif
+
 // Linked list to record top 5 highScores
 struct highScores {
   int rankNumber;
