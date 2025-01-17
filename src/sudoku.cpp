@@ -173,7 +173,7 @@ void sudoku::assignDifficulty(int source[9][9], int destination[9][9]) {
 
 // switch to selected difficulty board to main board
 void sudoku::difficultySwitch(int board[9][9]) {
-  system("clear");
+  system(CLEAR);
 
   char difficultyOption;
 
@@ -245,7 +245,8 @@ void sudoku::stopTimer() {
   elapsedTime = elapsedSeconds.count();
 
   std::cout << "\rTime Elapsed: " << std::fixed << std::setprecision(2)
-            << elapsedTime << " Seconds" << std::flush;
+            << elapsedTime << " Seconds\n"
+            << std::flush;
 }
 
 // Scoring

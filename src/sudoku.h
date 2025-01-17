@@ -12,6 +12,13 @@
 #include <thread>
 #include <unistd.h>
 
+// Cross platform clear screen command
+#ifdef _WIN32
+#define CLEAR "cls"
+#else
+#define CLEAR "clear"
+#endif
+
 class sudoku {
 private:
   // difficulty
