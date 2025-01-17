@@ -9,9 +9,6 @@ int main() {
   // board
   int board[9][9] = {0};
 
-  // load board with selected difficulty
-  game.difficultySwitch(board);
-
   // Cursor starting position
   int cursor[2] = {0, 0};
 
@@ -23,6 +20,7 @@ int main() {
   const int maxAttempts = 3;
   double points = 0;
   std::string name;
+  char menuChoice;
 
   // File to store high sccores
   const std::string highScores = "highscores.txt";
@@ -37,96 +35,133 @@ int main() {
     }
   }
 
-  game.startTimer();
-
-  // Main Game loop
-  while (true) {
-    system("clear"); // use "cls" for windows
-    std::cout << " Use w, a, s, d to move\n"
-              << " i to insert value\n"
-              << " q to quit\n"
-              << std::endl;
-
-    std::cout << "Mistakes: " << attempts << " / " << maxAttempts << std::endl;
-    std::cout << "Points: " << points << "\n" << std::endl;
-
-    game.displayBoard(board, cursor);
-
+  system(CLEAR);
+  do {
+    std::cout << "1. Play Game\n"
+              << "2. High Scores\n"
+              << "3. Quit" << std::endl;
     std::cout << "Choice: ";
-    std::cin >> input;
+    std::cin >> menuChoice;
 
-    // quit the game
-    if ('q' == input) {
+    switch (menuChoice) {
+    case '1': {
+      system(CLEAR);
+      // load board with selected difficulty
+      game.difficultySwitch(board);
+
+      // Start timer
+      game.startTimer();
+
+      // Main Game loop
+      while (true) {
+        system("clear"); // use "cls" for windows
+        std::cout << " Use w, a, s, d to move\n"
+                  << " i to insert value\n"
+                  << " q to quit\n"
+                  << std::endl;
+
+        std::cout << "Mistakes: " << attempts << " / " << maxAttempts
+                  << std::endl;
+        std::cout << "Points: " << points << "\n" << std::endl;
+
+        game.displayBoard(board, cursor);
+
+        std::cout << "Choice: ";
+        std::cin >> input;
+
+        // quit the game
+        if ('q' == input) {
+          break;
+        }
+
+        // inser value to the board based on the cursor's placement
+        if ('i' == input) {
+          // Check if cell is editable
+          if (!isEditable[cursor[0]][cursor[1]]) {
+            std::cout << "Cannot Modify this cell!" << std::endl;
+            std::cin.ignore();
+            std::cin.get();
+            continue;
+          }
+
+          std::cout << "Enter a value(1-9) to insert: ";
+          std::cin >> value;
+
+          // Check if the input is valid (an int)
+          /*if (!(std::cin >> value)) {
+              std::cout << "Invalid value! Enter a number between 1 and 9."
+                       << std::endl;
+             std::cin.clear();             // clear the error
+             std::cin.ignore(10000, '\n'); // Discard invalid input
+             std::cin.get();
+             continue;
+           }*/
+
+          // validate range of the value recieved
+          if (value < 1 || value > 9) {
+            std::cout << "\nInvalid value! Enter a number between 1 and 9."
+                      << std::endl;
+            std::cin.ignore();
+            std::cin.get();
+            continue;
+          }
+
+          // Validate placement and increament invalid attempts
+          if (game.isValidPlacement(board, cursor[0], cursor[1], value)) {
+            game.insertValue(board, cursor[0], cursor[1], value);
+            points = game.calculateScore(game.getDifficulty());
+          } else {
+            attempts++;
+            std::cout << "\nWrong placement! Try again." << std::endl;
+            std::cin.ignore();
+            std::cin.get();
+          }
+
+          // Check winning Condition
+          if (game.isWon(board)) {
+            system(CLEAR); // Clear screen
+            std::cout << "Congratulations, You've won the game!" << std::endl;
+            game.stopTimer();
+
+            // check if the score is a new high score and save if so
+            scoredPoints.insertHighScore(points, highScores);
+
+            break;
+          }
+
+          // CheckLosing Condition
+          if (attempts == maxAttempts) {
+            system(CLEAR);
+            std::cout << "GAME OVER!" << std::endl;
+            game.stopTimer();
+            std::cin.get();
+            break;
+          }
+        }
+
+        game.moveCursor(cursor, input);
+      }
+
       break;
     }
 
-    // inser value to the board based on the cursor's placement
-    if ('i' == input) {
-      // Check if cell is editable
-      if (!isEditable[cursor[0]][cursor[1]]) {
-        std::cout << "Cannot Modify this cell!" << std::endl;
-        std::cin.ignore();
-        std::cin.get();
-        continue;
-      }
-
-      std::cout << "Enter a value(1-9) to insert: ";
-      std::cin >> value;
-
-      // Check if the input is valid (an int)
-      /*if (!(std::cin >> value)) {
-          std::cout << "Invalid value! Enter a number between 1 and 9."
-                   << std::endl;
-         std::cin.clear();             // clear the error
-         std::cin.ignore(10000, '\n'); // Discard invalid input
-         std::cin.get();
-         continue;
-       }*/
-
-      // validate range of the value recieved
-      if (value < 1 || value > 9) {
-        std::cout << "\nInvalid value! Enter a number between 1 and 9."
-                  << std::endl;
-        std::cin.ignore();
-        std::cin.get();
-        continue;
-      }
-
-      // Validate placement and increament invalid attempts
-      if (game.isValidPlacement(board, cursor[0], cursor[1], value)) {
-        game.insertValue(board, cursor[0], cursor[1], value);
-        points = game.calculateScore(game.getDifficulty());
-      } else {
-        attempts++;
-        std::cout << "\nWrong placement! Try again." << std::endl;
-        std::cin.ignore();
-        std::cin.get();
-      }
-
-      // Check winning Condition
-      if (game.isWon(board)) {
-        system("clear"); // Clear screen
-        std::cout << "Congratulations, You've won the game!" << std::endl;
-        game.stopTimer();
-
-        // check if the score is a new high score and save if so
-        scoredPoints.insertHighScore(points, highScores);
-
-        break;
-      }
-
-      // CheckLosing Condition
-      if (attempts == maxAttempts) {
-        system("clear");
-        std::cout << "GAME OVER!" << std::endl;
-        game.stopTimer();
-        std::cin.get();
-        break;
-      }
+    case '2': {
+      system(CLEAR);
+      // show high scores
+      scoredPoints.viewHighscores();
+      break;
+    }
+    case '3': {
+      system(CLEAR);
+      std::cout << "Exiting..." << std::endl;
+      break;
+    }
+    default: {
+      std::cout << "Ivalid Choice!" << std::endl;
+    }
     }
 
-    game.moveCursor(cursor, input);
-  }
+  } while ('3' != menuChoice);
 
   return 0;
 }
