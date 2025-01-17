@@ -1,5 +1,8 @@
+#include "group.h"
 #include "score.h"
 #include "sudoku.h"
+#include <cstdlib>
+#include <ostream>
 
 int main() {
   // game objects
@@ -40,6 +43,7 @@ int main() {
     std::cout << "1. Play Game\n"
               << "2. High Scores\n"
               << "3. Quit" << std::endl;
+    std::cout << "0. Group Members" << std::endl;
     std::cout << "Choice: ";
     std::cin >> menuChoice;
 
@@ -154,6 +158,12 @@ int main() {
     case '3': {
       system(CLEAR);
       std::cout << "Exiting..." << std::endl;
+      break;
+    }
+    case '0': {
+      system(CLEAR);
+      group groupMembers;
+      groupMembers.groupMembers();
       break;
     }
     default: {
