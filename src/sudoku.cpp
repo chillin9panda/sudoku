@@ -276,3 +276,8 @@ double sudoku::calculateScore(char difficulty) {
 
 // setters and getters
 char sudoku::getDifficulty() { return difficulty; }
+
+double sudoku::resetTotalPoints() {
+  totalPoints = 0;
+  return totalPoints;
+}

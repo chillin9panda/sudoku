@@ -48,8 +48,8 @@ public:
   double calculateScore(char difficulty);
 
   // setters and getters
-  void setDifficulty(char difficulty);
   char getDifficulty();
+  double resetTotalPoints();
 };
 
 #endif

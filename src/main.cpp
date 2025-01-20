@@ -53,9 +53,9 @@ int main() {
       // load board with selected difficulty
       game.difficultySwitch(board);
 
-      // Reset every thing after selecting difficulty
+      // Reset every thing after selecting difficulty/ starting a new game
       attempts = 0;
-      points = 0;
+      points = game.resetTotalPoints();
       cursor[0] = 0;
       cursor[1] = 0;
 
