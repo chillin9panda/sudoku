@@ -201,11 +201,11 @@ void sudoku::difficultySwitch(int board[9][9]) {
     break;
   }
   case '2': {
-    emptyCells = 40;
+    emptyCells = 35;
     break;
   }
   case '3': {
-    emptyCells = 50;
+    emptyCells = 40;
     break;
   }
   default: {
@@ -249,7 +249,7 @@ void sudoku::stopTimer() {
             << std::flush;
 }
 
-// Scoring
+// points Scoring
 double sudoku::calculateScore(char difficulty) {
   switch (difficulty) {
   case '1': {

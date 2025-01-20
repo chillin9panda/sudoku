@@ -40,7 +40,7 @@ int main() {
   do {
     std::cout << "\tSUDOKU SOLVER" << std::endl;
     std::cout << "---------------------------" << std::endl;
-    std::cout << "1. Play Game\n"
+    std::cout << "1. New Game\n"
               << "2. High Scores\n"
               << "3. Quit" << std::endl;
     std::cout << "0. Group Members" << std::endl;
@@ -81,6 +81,7 @@ int main() {
 
         // quit the game
         if ('q' == input) {
+          system(CLEAR);
           break;
         }
 

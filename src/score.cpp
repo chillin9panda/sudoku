@@ -63,6 +63,7 @@ void score::clearHighScore() {
     head = head->nxt;
     delete temp;
   }
+  head == NULL;
 }
 
 // load highscore file to linked list
@@ -154,8 +155,8 @@ void score::saveScoreToFile(const std::string &highScoresFile) {
   }
   highScores *temp = head;
   while (temp) {
-    file << temp->rankNumber << "  " << temp->name << "  " << temp->score
-         << std::endl;
+    file << std::fixed << std::setprecision(2) << temp->rankNumber << " "
+         << temp->name << " " << temp->score << std::endl;
     temp = temp->nxt;
   }
   file.close();

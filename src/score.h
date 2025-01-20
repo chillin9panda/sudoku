@@ -1,7 +1,9 @@
 #ifndef SCORE_H
 #define SCORE_H
 
+#include <cstddef>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
