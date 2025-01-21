@@ -7,7 +7,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <iomanip>
+#include <ios>
+#include <limits>
 #include <thread>
 #include <unistd.h>
 

@@ -17,7 +17,7 @@ double score::easyModePoints(double timeElapsed) {
   return scorePoint;
 }
 
-// Medium Mode
+// for Medium Mode
 double score::mediumModePoints(double timeElapsed) {
   scorePoint = 0;
   if (timeElapsed < fiveMin) {
@@ -35,7 +35,7 @@ double score::mediumModePoints(double timeElapsed) {
   return scorePoint;
 }
 
-// Hard Mode
+// fpr Hard Mode
 double score::hardModePoints(double timeElapsed) {
   scorePoint = 0;
   if (timeElapsed < fiveMin) {
@@ -71,6 +71,8 @@ void score::loadScoresFromFile(const std::string &highScoresFile) {
   clearHighScore();
 
   std::ifstream file(highScoresFile);
+
+  // if file doesnt open
   if (!file.is_open()) {
     std::cout << "Error: Could not open file " << highScoresFile << std::endl;
     return;
@@ -78,6 +80,7 @@ void score::loadScoresFromFile(const std::string &highScoresFile) {
 
   std::string line;
 
+  // load the scores to the linked list
   while (std::getline(file, line)) {
     std::istringstream ss(line);
     int rank;
@@ -96,15 +99,19 @@ void score::loadScoresFromFile(const std::string &highScoresFile) {
       }
     }
   }
+
+  // close file after loading to linked list
   file.close();
 }
 
-// insert new high score
+// insert new high score to the linked list
 void score::insertHighScore(double score, const std::string &highScoresFile) {
+  // if head of list is NULL or if score is highscore
   if (NULL == head || score > head->score) {
     std::string name;
-    std::cout << "\nNew High Score!! You scored " << score << "points."
-              << "\nEnter your name: ";
+    std::cout << "\nNew High Score!! You scored " << score << " points."
+              << std::endl;
+    std::cout << "Enter your name: ";
     std::cin >> name;
 
     highScores *scoresNode = new highScores{0, name, score, NULL};
@@ -133,7 +140,7 @@ void score::insertHighScore(double score, const std::string &highScoresFile) {
       temp = temp->nxt;
     }
 
-    // Update Ranking
+    // Update Rankings
     temp = head;
     int rank = 1;
     while (temp) {
@@ -141,29 +148,35 @@ void score::insertHighScore(double score, const std::string &highScoresFile) {
       temp = temp->nxt;
     }
 
-    // Save the updated score to file
+    // Save the updated linked list to file
     saveScoreToFile(highScoresFile);
   }
 }
 
 // save the highscore to file
 void score::saveScoreToFile(const std::string &highScoresFile) {
-  std::ofstream file(highScoresFile);
+  std::ofstream file(highScoresFile); // open file
+
   if (!file.is_open()) {
     std::cout << "Could not open file " << highScoresFile << std::endl;
     return;
   }
+
   highScores *temp = head;
+
+  // insert score to file
   while (temp) {
     file << std::fixed << std::setprecision(2) << temp->rankNumber << " "
          << temp->name << " " << temp->score << std::endl;
     temp = temp->nxt;
   }
-  file.close();
+
+  file.close(); // close file
 }
 
 // show all highscores
 void score::viewHighscores() {
+  // If thre is no score saved
   if (!head) {
     std::cout << "No high scores recorded yet." << std::endl;
     return;
@@ -175,6 +188,8 @@ void score::viewHighscores() {
   std::cout << "_______________________________" << std::endl;
 
   highScores *temp = head;
+
+  // List high scores
   while (temp) {
     std::cout << temp->rankNumber << "\t" << temp->name << "\t" << temp->score
               << std::endl;

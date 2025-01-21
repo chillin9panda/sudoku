@@ -1,8 +1,6 @@
 #include "group.h"
 #include "score.h"
 #include "sudoku.h"
-#include <ios>
-#include <limits>
 
 int main() {
   // game objects
@@ -25,7 +23,7 @@ int main() {
   std::string name;
   char menuChoice;
 
-  // File to store high sccores
+  // Create or Open file to store high sccores
   const std::string highScores = "highscores.txt";
 
   // load high score file
@@ -39,6 +37,8 @@ int main() {
   }
 
   system(CLEAR);
+
+  // Game flow
   do {
     std::cout << "\tSUDOKU SOLVER" << std::endl;
     std::cout << "---------------------------" << std::endl;
@@ -72,6 +72,7 @@ int main() {
                   << " q to quit\n"
                   << std::endl;
 
+        // Game stats
         std::cout << "Mistakes: " << attempts << " / " << maxAttempts
                   << std::endl;
         std::cout << "Points: " << points << "\n" << std::endl;
@@ -152,6 +153,7 @@ int main() {
           }
         }
 
+        // move cursor based on input
         game.moveCursor(cursor, input);
       }
 

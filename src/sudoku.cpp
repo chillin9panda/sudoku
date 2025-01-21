@@ -91,9 +91,11 @@ bool sudoku::gridSearch(int board[9][9], int startRow, int startCol, int value,
 
 // check placememnt with the search Algorithms
 bool sudoku::isValidPlacement(int board[9][9], int row, int col, int value) {
+  // search starting points
   int startRow = row - row % 3; // Top lefy row of the grid
   int startCol = col - col % 3; // Top left column of the grid
 
+  // Vallidation through the board
   return !horizontalLinearSearch(board, row, value, col) &&
          !verticalLinearSearch(board, col, value, row) &&
          !gridSearch(board, startRow, startCol, value, row, col);
@@ -115,6 +117,7 @@ bool sudoku::isWon(int board[9][9]) {
 }
 
 // validation for board generation
+// only one way to fill the board and win the game
 bool sudoku::isValid(int board[9][9], int row, int col, int num) {
   for (int i = 0; i < 9; i++) {
     if (board[row][i] == num || board[i][col] == num)
@@ -122,6 +125,7 @@ bool sudoku::isValid(int board[9][9], int row, int col, int num) {
 
     int boxRow = row - row % 3 + i / 3;
     int boxCol = col - col % 3 + i % 3;
+
     if (board[boxRow][boxCol] == num)
       return false;
   }
@@ -129,6 +133,7 @@ bool sudoku::isValid(int board[9][9], int row, int col, int num) {
 }
 
 // Auto generate board at the beggining of the game
+// fully numbered board 9x9
 bool sudoku::generateBoard(int board[9][9], int row = 0, int col = 0) {
   if (row == 9)
     return true;
@@ -150,7 +155,7 @@ bool sudoku::generateBoard(int board[9][9], int row = 0, int col = 0) {
 
 // remove values from cells based on the difficulty
 void sudoku::removeNumbers(int board[9][9], int emptyCells) {
-  srand(time(0));
+  srand(time(0)); // randomize removed numbers
   while (emptyCells > 0) {
     int row = rand() % 9;
     int col = rand() % 9;
@@ -196,15 +201,15 @@ void sudoku::difficultySwitch(int board[9][9]) {
   int emptyCells = 0;
 
   switch (difficultyOption) {
-  case '1': {
+  case '1': { // easy
     emptyCells = 30;
     break;
   }
-  case '2': {
+  case '2': { // medium
     emptyCells = 35;
     break;
   }
-  case '3': {
+  case '3': { // hard
     emptyCells = 40;
     break;
   }
@@ -213,6 +218,8 @@ void sudoku::difficultySwitch(int board[9][9]) {
     return;
   }
   }
+
+  // generate board with cells empitied based on selected difficulty
   removeNumbers(board, emptyCells);
 }
 
@@ -250,6 +257,7 @@ void sudoku::stopTimer() {
 }
 
 // points Scoring
+// calculate score with time passed
 double sudoku::calculateScore(char difficulty) {
   switch (difficulty) {
   case '1': {
@@ -269,6 +277,7 @@ double sudoku::calculateScore(char difficulty) {
   }
   }
 
+  // calculate total points
   totalPoints += scoredPoint;
 
   return totalPoints;
@@ -277,6 +286,7 @@ double sudoku::calculateScore(char difficulty) {
 // setters and getters
 char sudoku::getDifficulty() { return difficulty; }
 
+// resetTotalPoints to zero when games reset
 double sudoku::resetTotalPoints() {
   totalPoints = 0;
   return totalPoints;

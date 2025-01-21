@@ -15,7 +15,7 @@
 #define CLEAR "clear"
 #endif
 
-// Linked list to record top 5 highScores
+// Single Linked list to record top 5 highScores
 struct highScores {
   int rankNumber;
   std::string name;
@@ -40,7 +40,7 @@ private:
   const int twentyMin = 20 * 60; // twenty minutes
   const int thirtyMin = 30 * 60; // thirty Minutes
                                  //
-  // Linked list
+  // Linked list head
   highScores *head = NULL;
 
   const int maxHighScores =
