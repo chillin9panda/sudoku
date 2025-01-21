@@ -63,7 +63,7 @@ void score::clearHighScore() {
     head = head->nxt;
     delete temp;
   }
-  head == NULL;
+  head = NULL;
 }
 
 // load highscore file to linked list
