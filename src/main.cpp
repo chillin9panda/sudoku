@@ -1,6 +1,8 @@
 #include "group.h"
 #include "score.h"
 #include "sudoku.h"
+#include <ios>
+#include <limits>
 
 int main() {
   // game objects
@@ -96,17 +98,17 @@ int main() {
           }
 
           std::cout << "Enter a value(1-9) to insert: ";
-          std::cin >> value;
 
           // Check if the input is valid (an int)
-          /*if (!(std::cin >> value)) {
-              std::cout << "Invalid value! Enter a number between 1 and 9."
-                       << std::endl;
-             std::cin.clear();             // clear the error
-             std::cin.ignore(10000, '\n'); // Discard invalid input
-             std::cin.get();
-             continue;
-           }*/
+          if (!(std::cin >> value)) {
+            std::cout << "\nInvalid value! Enter a number between 1 and 9."
+                      << std::endl;
+            std::cin.clear(); // clear the error
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
+                            '\n'); // Discard invalid input
+            std::cin.get();
+            continue;
+          }
 
           // validate range of the value recieved
           if (value < 1 || value > 9) {
