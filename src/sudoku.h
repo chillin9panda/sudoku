@@ -42,7 +42,6 @@ public:
   bool isValid(int board[9][9], int row, int col, int num);
   bool generateBoard(int board[9][9], int row, int col);
   void removeNumbers(int board[9][9], int emptyCell);
-  void assignDifficulty(int source[9][9], int destination[9][9]);
   void difficultySwitch(int board[9][9]);
   void startTimer();
   void stopTimer();

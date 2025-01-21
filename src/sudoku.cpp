@@ -167,15 +167,6 @@ void sudoku::removeNumbers(int board[9][9], int emptyCells) {
   }
 }
 
-// assign one array to another
-void sudoku::assignDifficulty(int source[9][9], int destination[9][9]) {
-  for (int i = 0; i < 9; i++) {
-    for (int j = 0; j < 9; j++) {
-      destination[i][j] = source[i][j];
-    }
-  }
-}
-
 // switch to selected difficulty board to main board
 void sudoku::difficultySwitch(int board[9][9]) {
   system(CLEAR);
