@@ -136,6 +136,7 @@ int main() {
             system(CLEAR); // Clear screen
             std::cout << "Congratulations, You've won the game!" << std::endl;
             game.stopTimer();
+            std::cout << "You got " << points << "." << std::endl;
 
             // check if the score is a new high score and save if so
             scoredPoints.insertHighScore(points, highScores);
