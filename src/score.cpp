@@ -1,4 +1,5 @@
 #include "score.h"
+#include <string>
 
 // Calculate points based on difficulty and time elapsed
 // for easy mode
@@ -68,11 +69,11 @@ void score::clearHighScore() {
 
 // load highscore file to linked list
 void score::loadScoresFromFile(const std::string &highScoresFile) {
-  clearHighScore();
+  clearHighScore(); // Clear existing linked list
 
   std::ifstream file(highScoresFile);
 
-  // if file doesnt open
+  // Check if the file can be opened
   if (!file.is_open()) {
     std::cout << "Error: Could not open file " << highScoresFile << std::endl;
     return;
@@ -80,33 +81,54 @@ void score::loadScoresFromFile(const std::string &highScoresFile) {
 
   std::string line;
 
-  // load the scores to the linked list
+  // Parse the file line by line
   while (std::getline(file, line)) {
+    // Skip empty lines
+    if (line.empty()) {
+      continue;
+    }
+
     std::istringstream ss(line);
     int rank;
     std::string name;
     double score;
-    if (ss >> rank >> name >> score) {
+
+    // Parse rank, name, and score from the line
+    if (ss >> rank) {
+      char quote;
+      ss >> quote;                  // Read the opening quote
+      std::getline(ss, name, '\"'); // Read the name (including spaces)
+      ss >> score;                  // Read the score
+
+      // Check if all the data is valid
+      if (ss.fail() || name.empty() || score <= 0) {
+        std::cout << "Error: Invalid data in file, skipping line: " << line
+                  << std::endl;
+        continue;
+      }
+
+      // Create a new highScores node
       highScores *scoresNode = new highScores{rank, name, score, NULL};
+
       if (!head) {
-        head = scoresNode;
+        head = scoresNode; // Set head if list is empty
       } else {
         highScores *temp = head;
         while (temp->nxt) {
           temp = temp->nxt;
         }
-        temp->nxt = scoresNode;
+        temp->nxt = scoresNode; // Append to the end of the list
       }
     }
   }
 
-  // close file after loading to linked list
+  // Close the file after loading
   file.close();
 }
 
 // insert new high score to the linked list
 void score::insertHighScore(double score, const std::string &highScoresFile) {
-  // if head of list is NULL or if score is highscore
+  // Check if the new score should be inserted
   if (NULL == head || score > head->score) {
     std::string name;
     std::cout << "\nNew High Score!! You scored " << score << " points."
@@ -115,13 +137,16 @@ void score::insertHighScore(double score, const std::string &highScoresFile) {
     std::cin >> name;
 
     highScores *scoresNode = new highScores{0, name, score, NULL};
-    // Insert in sorted order
+
+    // Insert the new score at the right position in the list
     if (!head || score > head->score) {
+      // Insert at the beginning
       scoresNode->nxt = head;
       head = scoresNode;
-    } else { // if scored points is greater than the highscores in the list
+    } else {
+      // Insert in the middle or at the end
       highScores *temp = head;
-      while (temp->nxt && temp->nxt->score >= score) {
+      while (temp->nxt && temp->nxt->score > score) {
         temp = temp->nxt;
       }
       scoresNode->nxt = temp->nxt;
@@ -133,14 +158,15 @@ void score::insertHighScore(double score, const std::string &highScoresFile) {
     int count = 1;
     while (temp && temp->nxt) {
       if (++count > maxHighScores) {
-        delete temp->nxt;
+        highScores *toDelete = temp->nxt;
         temp->nxt = NULL;
+        delete toDelete;
         break;
       }
       temp = temp->nxt;
     }
 
-    // Update Rankings
+    // Update rankings
     temp = head;
     int rank = 1;
     while (temp) {
@@ -164,10 +190,11 @@ void score::saveScoreToFile(const std::string &highScoresFile) {
 
   highScores *temp = head;
 
-  // insert score to file
+  // Insert score to file with proper spacing
   while (temp) {
-    file << std::fixed << std::setprecision(2) << temp->rankNumber << " "
-         << temp->name << " " << temp->score << std::endl;
+    file << std::fixed << std::setprecision(2) << temp->rankNumber
+         << " \"" // Add space before the quote
+         << temp->name << "\" " << temp->score << std::endl;
     temp = temp->nxt;
   }
 
